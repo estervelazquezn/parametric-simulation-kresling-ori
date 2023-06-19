@@ -30,6 +30,7 @@ nlist = [6,7,8,9,10,11,12]
 nlist = [6]
 Rlist = 50*np.ones(len(nlist))
 
+#-------------------------------------------------------------
 # Definition of the maximum limits of the flat 
 # heigh given by the geometry
 def maxh(nlist_limits):
