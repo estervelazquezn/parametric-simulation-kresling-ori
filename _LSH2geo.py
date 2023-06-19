@@ -12,6 +12,7 @@ import numpy as np
 import _kreslingGeometry
 import _LHSampling
 
+#-------------------------------------------------------------
 # Interpretation of the txt previously generated with the script '_LHSampling.py'
 def txtInterpreter():
     data = np.loadtxt('_sampling_data.txt',delimiter=' ')
@@ -20,11 +21,13 @@ def txtInterpreter():
     Rlist = data[2,:]
     geoGenerator(nlist,hlist,Rlist)
 
+#-------------------------------------------------------------
 # Generation of a new sampling calling the script '_LHSampling.py'
 def samplingGenerator(num):
     [nlist,hlist,Rlist] = _LHSampling.data(num)
     geoGenerator(nlist,hlist,Rlist)
 
+#-------------------------------------------------------------
 # Creation of the geoemtry calling the script '_kreslingGeometry.py'
 def geoGenerator(nlist,hlist,Rlist):
     kresling_data = np.zeros((len(nlist),7))
@@ -46,7 +49,7 @@ def geoGenerator(nlist,hlist,Rlist):
 
     np.savetxt('_kresling_data.txt',kresling_data,delimiter=" ")
 
-
+#-------------------------------------------------------------
 # Management of the input value obtained
 def inputManage(inputVal):
     while inputVal != 'y' and inputVal != 'n':
