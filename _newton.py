@@ -1,3 +1,4 @@
+# Obtained from: https://patrickwalls.github.io/mathematicalpython/root-finding/newton/
 import numpy as np
 def newton(f,Df,x0,epsilon,max_iter):
     '''Approximate solution of f(x)=0 by Newton's method.
@@ -45,23 +46,3 @@ def newton(f,Df,x0,epsilon,max_iter):
     print('Exceeded maximum iterations. No solution found.')
     return None
 
-def newtonRaphson2(f, dfdx, x, tol):
-
-    x0 = x
-    for i in range(1, 2000):
-        if f(x) == 0.0:
-            return x
-
-        if dfdx(x) == 0.0:
-            print(dfdx(x))
-            break
-        x = x - (f(x) / dfdx(x))
-        #print(x)
-
-        Er = abs(x0-x)/abs(x0)
-        print('Er = {}'.format(Er))
-        if Er <= tol:
-            return x
-
-        x0 = x
-    return x
