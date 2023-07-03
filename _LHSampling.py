@@ -25,10 +25,11 @@ import matplotlib.pyplot as plt
 import smt.sampling_methods as smt
 import _kreslingGeometry as kreslingGeometry
 
-
-nlist = [6,7,8,9,10,11,12]
-nlist = [6]
+# Definition of the globsl variables, which are n and R values
+nlist = [4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 Rlist = 50*np.ones(len(nlist))
+# Reference color for plotting
+p = ['gold','#B4D28C','#6482B4','#8CB3D2','#E6D25A','#96C8B4']
 
 #-------------------------------------------------------------
 # Definition of the maximum limits of the flat 
@@ -108,6 +109,10 @@ def data(num):
     sampling = smt.LHS(xlimits=xlimits)
     x = sampling(num)
 
+    # Plotting sample results
+    [n,h] = [np.trunc(x[:,0]),x[:,1]]
+    plot(n,h,'prueba2')
+
     # Selecting the data from the sample which achieve a
     # feasable case
     nNan = 0
@@ -127,66 +132,68 @@ def data(num):
     # Data sampling selected
     n = np.trunc(x[:,0])
     h = x[:,1]
-
     Rlist_num = Rlist[0]*np.ones(len(n))
 
     return(n,h,Rlist_num)
 
-def plot(x):
+#-------------------------------------------------------------
+# Plotter of the n and h data obtained - File name required
+def plot(n,h,fileName):
 
-    [n,h,R] = x
-
-    # Plot
+    # Defining plot style
     matplotlib.rcParams['mathtext.fontset'] = 'stix'
     matplotlib.rcParams['font.family'] = 'STIXGeneral'
 
     plt.figure(figsize=(9,5))
-    plt.fill_between(nlist, min_lim, max_lim, alpha = 0.1)
 
-    # plt.plot(x[:, 0], x[:, 1], "o")
-    plt.plot(n, h, "o")
-    plt.fill_between([17,18], 35.36, 85.72, alpha = 1, color = 'white')
-    plt.fill_between([13,15], 35.36, 85.72, alpha = 1, color = 'white')
-    # plt.plot(x[:, 0], x[:, 1], "o", nlist,max_lim,  nlist,min_lim)
-    plt.xlabel("Number of sides",fontsize=16)
-    plt.ylabel("h size",fontsize=16 )
+    print(min_lim)
+    print(max_lim)
+
+    plt.plot(n,h,'o',color=p[0])
+    plt.fill_between(nlist, min_lim, max_lim, color = p[0], alpha = 0.09)
+    plt.fill_between([np.max(nlist), np.max(nlist)-1], 35, 85, alpha = 1, color='white')
+    plt.xlabel("Number of sides, n",fontsize=16)
+    plt.ylabel("Flat height, h [mm]",fontsize=16 )
+
+    plt.legend(['Sampling data','Solution region'],fontsize=14,loc='lower right')
+    # plt.xlim([5.5,12.5])
+
 
     plt.tick_params(axis='x', labelsize=14)
     plt.tick_params(axis='y', labelsize=14)
 
-    plt.xlim(5,13)
-    plt.ylim(43,84)
     plt.grid(visible=True, which='both',axis='both')
+    plt.tight_layout(pad=1.0)
+    plt.savefig(fileName +'.png', format='png', dpi=200)
 
     plt.show()
 
-def plot2(x):
-    # Plot
-    [n,h,R] = x
-    
+#-------------------------------------------------------------
+# Plotter of limits obtained - File name required
+def plotLimits(fileName):
+
+    # Defining plot style
     matplotlib.rcParams['mathtext.fontset'] = 'stix'
     matplotlib.rcParams['font.family'] = 'STIXGeneral'
 
-    plt.figure(figsize=(7,6))
-    plt.fill_between(nlist, min_lim, max_lim, alpha = 0.1)
-    for i in range(len(n)):
-        plt.fill_between([n[i],n[i]+1], h[i]-0.15, h[i]+0.15, alpha = 1, color='black')
+    plt.figure(figsize=(9,5))
 
-    # plt.plot(x[:, 0], x[:, 1], "o")
-    plt.plot(n, h, "o")
-    plt.fill_between([17,18], 35.36, 85.72, alpha = 1, color = 'white')
-    plt.fill_between([13,15], 35.36, 85.72, alpha = 1, color = 'white')
-    plt.fill_between([4,6], 35.36, 85.72, alpha = 1, color = 'white')
-    # plt.plot(x[:, 0], x[:, 1], "o", nlist,max_lim,  nlist,min_lim)
-    plt.xlabel("Number of sides",fontsize=16)
-    plt.ylabel("h size",fontsize=16 )
+    plt.plot(nlist,min_lim,color=p[1])
+    plt.plot(nlist,max_lim,color=p[2])
+
+    plt.fill_between(nlist, min_lim, max_lim, color = p[0], alpha = 0.09)
+    plt.fill_between([np.max(nlist), np.max(nlist)], 35, 85, alpha = 1, color='white')
+    plt.xlabel("Number of sides, n",fontsize=16)
+    plt.ylabel("Flat height, h [mm]",fontsize=16 )
+    plt.legend(['Minimum limit','Maximum limits','Solution region'],fontsize=14,loc='lower right')
+
 
     plt.tick_params(axis='x', labelsize=14)
     plt.tick_params(axis='y', labelsize=14)
 
-    plt.xlim(5,14)
-    plt.ylim(43,84)
     plt.grid(visible=True, which='both',axis='both')
+    plt.tight_layout(pad=1.0)
+    plt.savefig(fileName +'.png', format='png', dpi=200)
 
     plt.show()
     
@@ -197,9 +204,8 @@ if __name__ == '__main__':
 
     min_lim = minh(nlist)
     max_lim = maxh(nlist)
-    sampling_data = data(num=120)
-    np.savetxt('_sampling_data.txt',sampling_data,delimiter=" ")
-    # data = np.loadtxt('_sampling_data.txt',delimiter=' ')
-    plot(sampling_data)
+    plotLimits('FIGURES/limits')
 
+    [n,h,R] = data(num=120)
+    plot(n,h,'FIGURES/prueba')
     
