@@ -113,7 +113,7 @@ def data(num):
 
     # Plotting sample results
     [n,h] = [np.trunc(x[:,0]),x[:,1]]
-    plot(n,h,'prueba2',min_lim,max_lim)
+    plot(n,h,'sampling_results',min_lim,max_lim)
 
     # Selecting the data from the sample which achieve a
     # feasable case
