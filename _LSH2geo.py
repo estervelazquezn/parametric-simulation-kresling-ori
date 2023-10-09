@@ -24,7 +24,7 @@ def txtInterpreter():
 #-------------------------------------------------------------
 # Generation of a new sampling calling the script '_LHSampling.py'
 def samplingGenerator(num):
-    [nlist,hlist,Rlist] = _LHSampling.data(num)
+    [nlist,hlist,Rlist,min_lim,max_lim] = _LHSampling.data(num)
     geoGenerator(nlist,hlist,Rlist)
 
 #-------------------------------------------------------------

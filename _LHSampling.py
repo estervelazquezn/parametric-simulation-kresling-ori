@@ -102,6 +102,8 @@ def minh(nlist_limits):
 # Data sampling generation from the nlist 
 def data(num):
 
+    min_lim = minh(nlist)
+    max_lim = maxh(nlist)
     # Limit definition
     xlimits = np.array([[np.min(nlist), np.max(nlist)], 
                         [np.min(min_lim), np.max(max_lim)]])
@@ -111,7 +113,7 @@ def data(num):
 
     # Plotting sample results
     [n,h] = [np.trunc(x[:,0]),x[:,1]]
-    plot(n,h,'prueba2')
+    plot(n,h,'prueba2',min_lim,max_lim)
 
     # Selecting the data from the sample which achieve a
     # feasable case
@@ -134,11 +136,11 @@ def data(num):
     h = x[:,1]
     Rlist_num = Rlist[0]*np.ones(len(n))
 
-    return(n,h,Rlist_num)
+    return(n,h,Rlist_num,min_lim,max_lim)
 
 #-------------------------------------------------------------
 # Plotter of the n and h data obtained - File name required
-def plot(n,h,fileName):
+def plot(n,h,fileName,min_lim,max_lim):
 
     # Defining plot style
     matplotlib.rcParams['mathtext.fontset'] = 'stix'
